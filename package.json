@@ -11,14 +11,14 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:pansvtk.helloWorld"
+		"onCommand:pansvtk.rendering"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "pansvtk.helloWorld",
-				"title": "Hello World"
+				"command": "pansvtk.rendering",
+				"title": "Rendering"
 			}
 		]
 	},

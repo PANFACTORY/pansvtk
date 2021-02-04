@@ -7,7 +7,7 @@ const cats = {
 
 module.exports.activate = (context) => {
 	context.subscriptions.push(
-		vscode.commands.registerCommand('pansvtk.helloWorld', () => {
+		vscode.commands.registerCommand('pansvtk.rendering', () => {
 			const panel = vscode.window.createWebviewPanel(
 				'catCoding', // Identifies the type of the webview. Used internally
 				'Cat Coding', // Title of the panel displayed to the user
