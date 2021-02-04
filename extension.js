@@ -1,3 +1,4 @@
+const { clear } = require('console');
 const vscode = require('vscode');
 
 const cats = {
@@ -23,7 +24,11 @@ module.exports.activate = (context) => {
 			};
 
 			updateWebview();
-			setInterval(updateWebview, 1000);
+			const interval = setInterval(updateWebview, 1000);
+
+			panel.onDidDispose(() => {
+				clearInterval(interval);
+			}, null, context.subscriptions);
 		})
 	);
 }
