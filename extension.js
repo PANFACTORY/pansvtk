@@ -1,16 +1,19 @@
 const vscode = require('vscode');
 
-function activate(context) {
-	console.log('Congratulations, your extension "pansvtk" is now active!');
-
-	let disposable = vscode.commands.registerCommand('pansvtk.helloWorld', function () {
-		vscode.window.showInformationMessage('Hello World from PANSVTK!');
-	});
-
-	context.subscriptions.push(disposable);
+const activate = (context) => {
+	context.subscriptions.push(
+		vscode.commands.registerCommand('pansvtk.helloWorld', () => {
+			const panel = vscode.window.createWebviewPanel(
+				'catCoding', // Identifies the type of the webview. Used internally
+				'Cat Coding', // Title of the panel displayed to the user
+				vscode.ViewColumn.One, // Editor column to show the new webview panel in.
+				{} // Webview options. More on these later.
+			);
+		})
+	);
 }
 
-function deactivate() {}
+const deactivate = () => {}
 
 module.exports = {
 	activate,
