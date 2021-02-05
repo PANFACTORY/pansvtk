@@ -1,5 +1,5 @@
 const vscode = require('vscode');
-const model = require('./models/model');
+const views = require('./views/view');
 
 module.exports.activate = (context) => {
 	context.subscriptions.push(
@@ -13,26 +13,12 @@ module.exports.activate = (context) => {
 					{} // Webview options. More on these later.
 				);
 
-				panel.webview.html = getWebviewContent(editer.document.fileName, editer.document.getText());
+				panel.webview.html = views.getWebviewContent(editer.document.fileName, editer.document.getText());
 			} else {
 				console.log("No file");
 			}
 		})
 	);
-}
-
-const getWebviewContent = (fileName, text) => {
-	return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${fileName}</title>
-</head>
-<body>
-	${text}
-</body>
-</html>`;
 }
 
 module.exports.deactivate = () => {}
