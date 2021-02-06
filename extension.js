@@ -14,9 +14,11 @@ module.exports.activate = (context) => {
 					{} // Webview options. More on these later.
 				);
 
-				models.loadModelFromVTK(editer.document.getText());
+				let model = models.loadModelFromVTK(editer.document.getText());
 
-				panel.webview.html = views.getWebviewContent(editer.document.fileName, editer.document.getText());
+				
+
+				panel.webview.html = views.getWebviewContent(editer.document.fileName, model);
 			} else {
 				console.log("No file");
 			}
