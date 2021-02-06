@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const views = require('./views/view');
+const models = require('./models/model');
 
 module.exports.activate = (context) => {
 	context.subscriptions.push(
@@ -12,6 +13,8 @@ module.exports.activate = (context) => {
 					vscode.ViewColumn.One, // Editor column to show the new webview panel in.
 					{} // Webview options. More on these later.
 				);
+
+				models.loadModelFromVTK(editer.document.getText());
 
 				panel.webview.html = views.getWebviewContent(editer.document.fileName, editer.document.getText());
 			} else {
