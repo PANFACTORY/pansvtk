@@ -18,10 +18,18 @@ module.exports.getWebviewContent = (_fileName, _model) => {
         const p3 = _model.POINTS[cell.POINTS[3]];
 
         let id = _model.CELLS.indexOf(cell);
-        const R0 = 256*_model.CELL_DATAS[0].VALUES[id];
-        const R = ("0" + R0.toString(16)).slice(-2);
+        const R0 = 0;
+        const G0 = 0;
+        const B0 = 255;
+        const R1 = 255;
+        const G1 = 0;
+        const B1 = 0;
+        
+        const Rs = R0*(1 - _model.CELL_DATAS[0].VALUES[id]) + R1*_model.CELL_DATAS[0].VALUES[id];
+        const Gs = G0*(1 - _model.CELL_DATAS[0].VALUES[id]) + G1*_model.CELL_DATAS[0].VALUES[id];
+        const Bs = B0*(1 - _model.CELL_DATAS[0].VALUES[id]) + B1*_model.CELL_DATAS[0].VALUES[id];
 
-        const fillcolor = `#${R}0000`
+        const fillcolor = `#${("0" + Rs.toString(16)).slice(-2)}${("0" + Gs.toString(16)).slice(-2)}${("0" + Bs.toString(16)).slice(-2)}`;
 
         svg += getSvgType9(X0 + p0.x*scale, Y0 - p0.y*scale, X0 + p1.x*scale, Y0 - p1.y*scale, X0 + p2.x*scale, Y0 - p2.y*scale, X0 + p3.x*scale, Y0 - p3.y*scale, fillcolor, "black", 1);
     }
