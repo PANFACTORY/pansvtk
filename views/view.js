@@ -19,14 +19,14 @@ module.exports.getWebviewContent = (_fileName, _model) => {
         svg += getSvgRectangle(X0 + p0.x*scale, Y0 - p0.y*scale, X0 + p1.x*scale, Y0 - p1.y*scale, X0 + p2.x*scale, Y0 - p2.y*scale, X0 + p3.x*scale, Y0 - p3.y*scale);
     }
 	return `<!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="width:100%;height:100%;">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>${_fileName}</title>
     </head>
-    <body>
-        <svg x=0 y=0 width=100% height=500 style="background-color: #000000">${svg}</svg>
+    <body style="width:100%;height:100%;margin:0;">
+        <svg x=0 y=0 height="100%" width="100%" style="background-color: #ffffff">${svg}</svg>
     </body>
 </html>`;
 }
