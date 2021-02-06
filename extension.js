@@ -18,7 +18,7 @@ module.exports.activate = (context) => {
 
 				panel.webview.html = views.getWebviewContent(editer.document.fileName, model);
 			} else {
-				console.log("No file");
+				vscode.window.showInformationMessage("No file selected!");
 			}
 		})
 	);
