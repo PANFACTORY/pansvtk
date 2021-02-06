@@ -2,7 +2,7 @@ const svgs = require('./svgs');
 
 module.exports.getWebviewContent = (_fileName, _model, _colorTag="SolidColor") => {
     let svg = "";
-    let scale = 500;
+    let scale = 5;
     let X0 = 100;
     let Y0 = 500;
     for (let cell of _model.CELLS) {
@@ -14,7 +14,7 @@ module.exports.getWebviewContent = (_fileName, _model, _colorTag="SolidColor") =
             const p1 = _model.POINTS[cell.POINTS[1]];
             const p2 = _model.POINTS[cell.POINTS[2]];
             svg += svgs.getSvgType5(X0 + p0.x*scale, Y0 - p0.y*scale, X0 + p1.x*scale, Y0 - p1.y*scale, X0 + p2.x*scale, Y0 - p2.y*scale, fillcolor, "black", 1);
-        } else if (cell.type == 9) {
+        } else if (cell.TYPE == 9) {
             const p0 = _model.POINTS[cell.POINTS[0]];
             const p1 = _model.POINTS[cell.POINTS[1]];
             const p2 = _model.POINTS[cell.POINTS[2]];
