@@ -21,6 +21,7 @@ module.exports.activate = (context) => {
 
 				panel.webview.onDidReceiveMessage(
 					message => {
+						console.log(message.colorTag);
 						panel.webview.html = views.getWebviewContent(editer.document.fileName, model, message.colorTag);
 					},
 					undefined,

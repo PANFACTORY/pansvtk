@@ -32,12 +32,17 @@ module.exports.getWebviewContent = (_fileName, _model, _colorTag="SolidColor") =
         <title>${_fileName}</title>
     </head>
     <body style="width:100%;height:100%;margin:0;">
-        <select name="example" size=1>${celldataoptions}</select>
+        <select name="selectCelldata" id="selectCelldata" size=1>${celldataoptions}</select>
         <svg x=0 y=0 height="100%" width="100%" style="background-color: #ffffff">${svg}</svg>
         
         <script>
             const vscode = acquireVsCodeApi(); // acquireVsCodeApi can only be invoked once
-            vscode.postMessage({ colorTag : 's' });
+
+            const $selectCelldata = document.getElementById("selectCelldata");
+            $selectCelldata.value = "${_colorTag}";
+            $selectCelldata.addEventListener('change', (event) => {
+                vscode.postMessage({ colorTag : $selectCelldata.value });
+            });
         </script>
     </body>
 </html>`;
