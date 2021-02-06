@@ -27,6 +27,10 @@ module.exports.getWebviewContent = (_fileName, _model) => {
     </head>
     <body style="width:100%;height:100%;margin:0;">
         <svg x=0 y=0 height="100%" width="100%" style="background-color: #ffffff">${svg}</svg>
+        <script>
+            const vscode = acquireVsCodeApi(); // acquireVsCodeApi can only be invoked once
+            vscode.postMessage({ message: 'hello!' });
+        </script>
     </body>
 </html>`;
 }
