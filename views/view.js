@@ -7,7 +7,7 @@ module.exports.getWebviewContent = (_fileName, _model, _colorTag="SolidColor") =
     let Y0 = 500;
     for (let cell of _model.CELLS) {
         let id = _model.CELLS.indexOf(cell);
-        const fillcolor = _colorTag == "SolidColor" ? "lime" : `hsl(${240*(1 - _model.CELL_DATAS[_colorTag][id])}, 100%, 50%)`;
+        const fillcolor = _colorTag == "SolidColor" ? "lime" : `hsl(${240*(1 - _model.CELL_DATAS[_colorTag].VALUES[id])}, 100%, 50%)`;
 
         if (cell.TYPE == 5) {
             const p0 = _model.POINTS[cell.POINTS[0]];

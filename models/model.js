@@ -29,22 +29,25 @@ module.exports.loadModelFromVTK = (_str) => {
         } else if (tokens[i] == 'POINT_DATA') {
             const pointsnum = parseInt(tokens[i + 1]);
             const tag = tokens[i + 3];
-            model.POINT_DATAS[tag] = [];
+            model.POINT_DATAS[tag] = { TYPE : "", VALUES : [] };
 
             if (tokens[i + 2] == 'SCALARS') {
+                model.POINT_DATAS[tag].TYPE = "SCALARS";
                 i += 7;
                 for (let j = 0; j < pointsnum; j++) {
-                    model.POINT_DATAS[tag].push(parseFloat(tokens[i++]));
+                    model.POINT_DATAS[tag].VALUES.push(parseFloat(tokens[i++]));
                 }
             } else if (tokens[i + 2] == 'VECTORS') {
+                model.POINT_DATAS[tag].TYPE = "VECTORS";
                 i += 5;
                 for (let j = 0; j < pointsnum; j++) {
-                    model.POINT_DATAS[tag].push({ x : parseFloat(tokens[i++]), y : parseFloat(tokens[i++]), z : parseFloat(tokens[i++]) });
+                    model.POINT_DATAS[tag].VALUES.push({ x : parseFloat(tokens[i++]), y : parseFloat(tokens[i++]), z : parseFloat(tokens[i++]) });
                 }
             } else if (tokens[i + 2] == 'TENSORS') {
+                model.POINT_DATAS[tag].TYPE = "TENSORS";
                 i += 5;
                 for (let j = 0; j < pointsnum; j++) {
-                    model.POINT_DATAS[tag].push({ 
+                    model.POINT_DATAS[tag].VALUES.push({ 
                         xx : parseFloat(tokens[i++]), xy : parseFloat(tokens[i++]), xz : parseFloat(tokens[i++]),
                         yx : parseFloat(tokens[i++]), yy : parseFloat(tokens[i++]), yz : parseFloat(tokens[i++]),
                         zx : parseFloat(tokens[i++]), zy : parseFloat(tokens[i++]), zz : parseFloat(tokens[i++])
@@ -54,22 +57,25 @@ module.exports.loadModelFromVTK = (_str) => {
         } else if (tokens[i] == 'CELL_DATA') {
             const cellsnum = parseInt(tokens[i + 1]);
             const tag = tokens[i + 3];
-            model.CELL_DATAS[tag] = [];
+            model.CELL_DATAS[tag] = { TYPE : "", VALUES : [] };
             
             if (tokens[i + 2] == 'SCALARS') {
+                model.CELL_DATAS[tag].TYPE = "SCALARS";
                 i += 7;
                 for (let j = 0; j < cellsnum; j++) {
-                    model.CELL_DATAS[tag].push(parseFloat(tokens[i++]));
+                    model.CELL_DATAS[tag].VALUES.push(parseFloat(tokens[i++]));
                 }
             } else if (tokens[i + 2] == 'VECTORS') {
+                model.CELL_DATAS[tag].TYPE = "VECTORS";
                 i += 5;
                 for (let j = 0; j < cellsnum; j++) {
-                    model.CELL_DATAS[tag].push({ x : parseFloat(tokens[i++]), y : parseFloat(tokens[i++]), z : parseFloat(tokens[i++]) });
+                    model.CELL_DATAS[tag].VALUES.push({ x : parseFloat(tokens[i++]), y : parseFloat(tokens[i++]), z : parseFloat(tokens[i++]) });
                 }
             } else if (tokens[i + 2] == 'TENSORS') {
+                model.CELL_DATAS[tag].TYPE = "TENSORS";
                 i += 5;
                 for (let j = 0; j < cellsnum; j++) {
-                    model.CELL_DATAS[tag].push({ 
+                    model.CELL_DATAS[tag].VALUES.push({ 
                         xx : parseFloat(tokens[i++]), xy : parseFloat(tokens[i++]), xz : parseFloat(tokens[i++]),
                         yx : parseFloat(tokens[i++]), yy : parseFloat(tokens[i++]), yz : parseFloat(tokens[i++]),
                         zx : parseFloat(tokens[i++]), zy : parseFloat(tokens[i++]), zz : parseFloat(tokens[i++])
