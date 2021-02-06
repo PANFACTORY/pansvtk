@@ -1,7 +1,3 @@
-const getSvgLine = (_x1, _y1, _x2, _y2) => {
-    return `<line x1="${_x1}" y1="${_y1}" x2="${_x2}" y2="${_y2}" stroke="aqua" stroke-width="1" />`;
-}
-
 const getSvgType9 = (_x1, _y1, _x2, _y2, _x3, _y3, _x4, _y4, _fill, _stroke, _width) => {
     return `<polygon fill="${_fill}" stroke="${_stroke}" stroke-width="${_width}" points="${_x1},${_y1} ${_x2},${_y2} ${_x3},${_y3} ${_x4},${_y4}" />`
 }
@@ -9,7 +5,7 @@ const getSvgType9 = (_x1, _y1, _x2, _y2, _x3, _y3, _x4, _y4, _fill, _stroke, _wi
 module.exports.getWebviewContent = (_fileName, _model) => {
     let svg = "";
     let scale = 5;
-    let X0 = 10;
+    let X0 = 100;
     let Y0 = 500;
     for (let cell of _model.CELLS) {
         const p0 = _model.POINTS[cell.POINTS[0]];
