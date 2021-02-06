@@ -26,7 +26,7 @@ module.exports.getWebviewContent = (_fileName, _model, _colorTag="SolidColor") =
     let celldataoptions = '<option value="SolidColor">SolidColor</option>';
     for (let tag in _model.CELL_DATAS) {
         celldataoptions += `<option value="${tag}">${tag}</option>`;
-    }
+    }   //  SCALAR,VECTOR,TENSORのどれなのかmodelに識別子を組み込んだ方が良いのでは？
 
 	return `<!DOCTYPE html>
 <html lang="en" style="width:100%;height:100%;">

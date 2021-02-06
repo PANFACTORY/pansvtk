@@ -43,6 +43,13 @@ module.exports.loadModelFromVTK = (_str) => {
                 }
             } else if (tokens[i + 2] == 'TENSORS') {
                 i += 5;
+                for (let j = 0; j < pointsnum; j++) {
+                    model.POINT_DATAS[tag].push({ 
+                        xx : parseFloat(tokens[i++]), xy : parseFloat(tokens[i++]), xz : parseFloat(tokens[i++]),
+                        yx : parseFloat(tokens[i++]), yy : parseFloat(tokens[i++]), yz : parseFloat(tokens[i++]),
+                        zx : parseFloat(tokens[i++]), zy : parseFloat(tokens[i++]), zz : parseFloat(tokens[i++])
+                    });
+                }
             }
         } else if (tokens[i] == 'CELL_DATA') {
             const cellsnum = parseInt(tokens[i + 1]);
@@ -61,6 +68,13 @@ module.exports.loadModelFromVTK = (_str) => {
                 }
             } else if (tokens[i + 2] == 'TENSORS') {
                 i += 5;
+                for (let j = 0; j < cellsnum; j++) {
+                    model.CELL_DATAS[tag].push({ 
+                        xx : parseFloat(tokens[i++]), xy : parseFloat(tokens[i++]), xz : parseFloat(tokens[i++]),
+                        yx : parseFloat(tokens[i++]), yy : parseFloat(tokens[i++]), yz : parseFloat(tokens[i++]),
+                        zx : parseFloat(tokens[i++]), zy : parseFloat(tokens[i++]), zz : parseFloat(tokens[i++])
+                    });
+                }
             }
         } else {
             i++;
