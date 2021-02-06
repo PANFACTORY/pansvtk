@@ -14,14 +14,14 @@ module.exports.getWebviewContent = (_fileName, _model, _colorTag="SolidColor") =
         const p3 = _model.POINTS[cell.POINTS[3]];
 
         let id = _model.CELLS.indexOf(cell);
-        const fillcolor = _colorTag == "SolidColor" ? "lime" : `hsl(${240*(1 - _model.CELL_DATAS[0].VALUES[id])}, 100%, 50%)`;
+        const fillcolor = _colorTag == "SolidColor" ? "lime" : `hsl(${240*(1 - _model.CELL_DATAS[_colorTag][id])}, 100%, 50%)`;
 
         svg += getSvgType9(X0 + p0.x*scale, Y0 - p0.y*scale, X0 + p1.x*scale, Y0 - p1.y*scale, X0 + p2.x*scale, Y0 - p2.y*scale, X0 + p3.x*scale, Y0 - p3.y*scale, fillcolor, "black", 1);
     }
 
     let celldataoptions = '<option value="SolidColor">SolidColor</option>';
-    for (let celldata of _model.CELL_DATAS) {
-        celldataoptions += `<option value="${celldata.TAG}">${celldata.TAG}</option>`;
+    for (let tag in _model.CELL_DATAS) {
+        celldataoptions += `<option value="${tag}">${tag}</option>`;
     }
 
 	return `<!DOCTYPE html>
