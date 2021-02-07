@@ -33,8 +33,6 @@ module.exports.activate = (context) => {
 					undefined,
 					context.subscriptions
 				);
-
-
 			} else {
 				vscode.window.showInformationMessage("No file selected!");
 			}
