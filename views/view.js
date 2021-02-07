@@ -1,3 +1,4 @@
+const { FoldingRangeKind } = require('vscode');
 const svgs = require('./svgs');
 
 module.exports.getWebviewContent = (_fileName, _model, _dataoption="SolidColor") => {
@@ -11,23 +12,27 @@ module.exports.getWebviewContent = (_fileName, _model, _dataoption="SolidColor")
         if (type == "cell") {
             const cellid = _model.CELLS.indexOf(cell);
             if (!component) {
-                fillcolor = `hsl(${240*(1 - _model.DATAS["CELL_DATA"][tag].VALUES[cellid])}, 100%, 50%)`;
+                const range = _model.DATAS["CELL_DATA"][tag]["MAX"] - _model.DATAS["CELL_DATA"][tag]["MIN"];
+                fillcolor = `hsl(${240*(_model.DATAS["CELL_DATA"][tag]["MAX"] - _model.DATAS["CELL_DATA"][tag].VALUES[cellid])/range}, 100%, 50%)`;
             } else {
-                fillcolor = `hsl(${240*(1 - _model.DATAS["CELL_DATA"][tag].VALUES[component][cellid])}, 100%, 50%)`;
+                const range = _model.DATAS["CELL_DATA"][tag]["MAX"][component] - _model.DATAS["CELL_DATA"][tag]["MIN"][component];
+                fillcolor = `hsl(${240*(_model.DATAS["CELL_DATA"][tag]["MAX"][component] - _model.DATAS["CELL_DATA"][tag].VALUES[component][cellid])/range}, 100%, 50%)`;
             }
         } else if (type == "point") {
             if (!component) {
+                const range = _model.DATAS["POINT_DATA"][tag]["MAX"] - _model.DATAS["POINT_DATA"][tag]["MIN"];
                 const c0 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[0]];
                 const c1 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[1]];
                 const c2 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[2]];
                 const c3 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[3]];
-                fillcolor = `hsl(${240*(1 - 0.25*(c0 + c1 + c2 + c3))}, 100%, 50%)`;
+                fillcolor = `hsl(${240*(_model.DATAS["POINT_DATA"][tag]["MAX"] - 0.25*(c0 + c1 + c2 + c3))/range}, 100%, 50%)`;
             } else {
+                const range = _model.DATAS["POINT_DATA"][tag]["MAX"][component] - _model.DATAS["POINT_DATA"][tag]["MIN"][component];
                 const c0 = _model.DATAS["POINT_DATA"][tag].VALUES[component][cell.POINTS[0]];
                 const c1 = _model.DATAS["POINT_DATA"][tag].VALUES[component][cell.POINTS[1]];
                 const c2 = _model.DATAS["POINT_DATA"][tag].VALUES[component][cell.POINTS[2]];
                 const c3 = _model.DATAS["POINT_DATA"][tag].VALUES[component][cell.POINTS[3]];
-                fillcolor = `hsl(${240*(1 - 0.25*(c0 + c1 + c2 + c3))}, 100%, 50%)`;
+                fillcolor = `hsl(${240*(_model.DATAS["POINT_DATA"][tag]["MAX"][component] - 0.25*(c0 + c1 + c2 + c3))/range}, 100%, 50%)`;
             }
         }
 
@@ -52,7 +57,7 @@ module.exports.getWebviewContent = (_fileName, _model, _dataoption="SolidColor")
             if (_model.DATAS[mode][tag].TYPE == "SCALARS") {
                 dataoptions += `<option value="${modeName}.${tag}">${modeName}.${tag}</option>`;
             } else if (_model.DATAS[mode][tag].TYPE == "VECTORS") {
-                dataoptions += `<option value="${modeName}.${tag}.x">${modeName}.${tag}.x</option><option value="${mode}.${tag}.y">${modeName}.${tag}.y</option><option value="${modeName}.${tag}.z">${modeName}.${tag}.z</option>`;
+                dataoptions += `<option value="${modeName}.${tag}.x">${modeName}.${tag}.x</option><option value="${modeName}.${tag}.y">${modeName}.${tag}.y</option><option value="${modeName}.${tag}.z">${modeName}.${tag}.z</option>`;
             } else if (_model.DATAS[mode][tag].TYPE == "TENSORS") {
                 dataoptions += `<option value="${modeName}.${tag}.xx">${modeName}.${tag}.xx</option><option value="${modeName}.${tag}.xy">${modeName}.${tag}.xy</option><option value="${modeName}.${tag}.xz">${modeName}.${tag}.xz</option>
                     <option value="${modeName}.${tag}.yx">${modeName}.${tag}.yx</option><option value="${modeName}.${tag}.yy">${modeName}.${tag}.yy</option><option value="${modeName}.${tag}.yz">${modeName}.${tag}.yz</option>
