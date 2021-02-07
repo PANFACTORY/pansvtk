@@ -14,7 +14,7 @@ module.exports.activate = (context) => {
 				const panel = vscode.window.createWebviewPanel(
 					'catCoding', // Identifies the type of the webview. Used internally
 					editer.document.fileName, // Title of the panel displayed to the user
-					vscode.ViewColumn.One, // Editor column to show the new webview panel in.
+					vscode.ViewColumn.Beside, // Editor column to show the new webview panel in.
 					{
 						enableScripts: true,
 						retainContextWhenHidden: true
