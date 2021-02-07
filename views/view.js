@@ -23,7 +23,7 @@ module.exports.getWebviewContent = (_fileName) => {
             });
 
             const $svgs = document.getElementById("svgs");
-            
+
             window.addEventListener('message', event => {
                 const message = event.data;
                 if (message.command == "options") {

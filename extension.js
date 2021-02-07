@@ -16,7 +16,8 @@ module.exports.activate = (context) => {
 					editer.document.fileName, // Title of the panel displayed to the user
 					vscode.ViewColumn.One, // Editor column to show the new webview panel in.
 					{
-						enableScripts: true
+						enableScripts: true,
+						retainContextWhenHidden: true
 					} // Webview options. More on these later.
 				);
 				panel.webview.html = views.getWebviewContent(editer.document.fileName);
@@ -32,6 +33,8 @@ module.exports.activate = (context) => {
 					undefined,
 					context.subscriptions
 				);
+
+
 			} else {
 				vscode.window.showInformationMessage("No file selected!");
 			}
