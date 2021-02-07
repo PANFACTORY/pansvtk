@@ -8,6 +8,9 @@ module.exports.activate = (context) => {
 		vscode.commands.registerCommand('pansvtk.rendering', () => {
 			const editer = vscode.window.activeTextEditor;
 			if (editer) {
+				let model = models.loadModelFromVTK(editer.document.getText());
+				console.log(model);
+
 				const panel = vscode.window.createWebviewPanel(
 					'catCoding', // Identifies the type of the webview. Used internally
 					editer.document.fileName, // Title of the panel displayed to the user
@@ -16,19 +19,15 @@ module.exports.activate = (context) => {
 						enableScripts: true
 					} // Webview options. More on these later.
 				);
+				panel.webview.html = views.getWebviewContent(editer.document.fileName);
 
-				let model = models.loadModelFromVTK(editer.document.getText());
-
-				console.log(model);
-
-				panel.webview.html = views.getWebviewContent(editer.document.fileName, model);
-
-				panel.webview.postMessage({ command : "options", data : controllers.getWebviewContent(model) });
+				panel.webview.postMessage({ command : "options", data : controllers.getOptions(model) });
+				panel.webview.postMessage({ command : "svgs", data : controllers.getSvgs(model) });
 
 				panel.webview.onDidReceiveMessage(
 					message => {
 						console.log(message);
-						panel.webview.html = views.getWebviewContent(editer.document.fileName, model, message.dataoption);
+						panel.webview.postMessage({ command : "svgs", data : controllers.getSvgs(model, message.dataoption) });
 					},
 					undefined,
 					context.subscriptions
