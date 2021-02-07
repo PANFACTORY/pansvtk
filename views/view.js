@@ -11,22 +11,22 @@ module.exports.getWebviewContent = (_fileName, _model, _dataoption="SolidColor")
         if (type == "cell") {
             const cellid = _model.CELLS.indexOf(cell);
             if (!component) {
-                fillcolor = `hsl(${240*(1 - _model.CELL_DATAS[tag].VALUES[cellid])}, 100%, 50%)`;
+                fillcolor = `hsl(${240*(1 - _model.DATAS["CELL_DATA"][tag].VALUES[cellid])}, 100%, 50%)`;
             } else {
-                fillcolor = `hsl(${240*(1 - _model.CELL_DATAS[tag].VALUES[cellid][component])}, 100%, 50%)`;
+                fillcolor = `hsl(${240*(1 - _model.DATAS["CELL_DATA"][tag].VALUES[cellid][component])}, 100%, 50%)`;
             }
         } else if (type == "point") {
             if (!component) {
-                const c0 = _model.POINT_DATAS[tag].VALUES[cell.POINTS[0]];
-                const c1 = _model.POINT_DATAS[tag].VALUES[cell.POINTS[1]];
-                const c2 = _model.POINT_DATAS[tag].VALUES[cell.POINTS[2]];
-                const c3 = _model.POINT_DATAS[tag].VALUES[cell.POINTS[3]];
+                const c0 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[0]];
+                const c1 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[1]];
+                const c2 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[2]];
+                const c3 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[3]];
                 fillcolor = `hsl(${240*(1 - 0.25*(c0 + c1 + c2 + c3))}, 100%, 50%)`;
             } else {
-                const c0 = _model.POINT_DATAS[tag].VALUES[cell.POINTS[0]][component];
-                const c1 = _model.POINT_DATAS[tag].VALUES[cell.POINTS[1]][component];
-                const c2 = _model.POINT_DATAS[tag].VALUES[cell.POINTS[2]][component];
-                const c3 = _model.POINT_DATAS[tag].VALUES[cell.POINTS[3]][component];
+                const c0 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[0]][component];
+                const c1 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[1]][component];
+                const c2 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[2]][component];
+                const c3 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[3]][component];
                 fillcolor = `hsl(${240*(1 - 0.25*(c0 + c1 + c2 + c3))}, 100%, 50%)`;
             }
         }
@@ -46,27 +46,19 @@ module.exports.getWebviewContent = (_fileName, _model, _dataoption="SolidColor")
     }
 
     let dataoptions = '<option value="SolidColor">SolidColor</option>';
-    for (let tag in _model.CELL_DATAS) {
-        if (_model.CELL_DATAS[tag].TYPE == "SCALARS") {
-            dataoptions += `<option value="cell.${tag}">cell.${tag}</option>`;
-        } else if (_model.CELL_DATAS[tag].TYPE == "VECTORS") {
-            dataoptions += `<option value="cell.${tag}.x">cell.${tag}.x</option><option value="cell.${tag}.y">cell.${tag}.y</option><option value="cell.${tag}.z">cell.${tag}.z</option>`;
-        } else if (_model.CELL_DATAS[tag].TYPE == "TENSORS") {
-            dataoptions += `<option value="cell.${tag}.xx">cell.${tag}.xx</option><option value="cell.${tag}.xy">cell.${tag}.xy</option><option value="cell.${tag}.xz">cell.${tag}.xz</option>
-                <option value="cell.${tag}.yx">cell.${tag}.yx</option><option value="cell.${tag}.yy">cell.${tag}.yy</option><option value="cell.${tag}.yz">cell.${tag}.yz</option>
-                <option value="cell.${tag}.zx">cell.${tag}.zx</option><option value="cell.${tag}.zy">cell.${tag}.zy</option><option value="cell.${tag}.zz">cell.${tag}.zz</option>`;
-        }
-    }
-    for (let tag in _model.POINT_DATAS) {
-        if (_model.POINT_DATAS[tag].TYPE == "SCALARS") {
-            dataoptions += `<option value="point.${tag}">point.${tag}</option>`;
-        } else if (_model.POINT_DATAS[tag].TYPE == "VECTORS") {
-            dataoptions += `<option value="point.${tag}.x">point.${tag}.x</option><option value="point.${tag}.y">point.${tag}.y</option><option value="point.${tag}.z">point.${tag}.z</option>`;
-        } else if (_model.POINT_DATAS[tag].TYPE == "TENSORS") {
-            dataoptions += `<option value="point.${tag}.xx">point.${tag}.xx</option><option value="point.${tag}.xy">point.${tag}.xy</option><option value="point.${tag}.xz">point.${tag}.xz</option>
-                <option value="point.${tag}.yx">point.${tag}.yx</option><option value="point.${tag}.yy">point.${tag}.yy</option><option value="point.${tag}.yz">point.${tag}.yz</option>
-                <option value="point.${tag}.zx">point.${tag}.zx</option><option value="point.${tag}.zy">point.${tag}.zy</option><option value="point.${tag}.zz">point.${tag}.zz</option>`;
-        }
+    for (let mode in _model.DATAS) {
+        const modeName = mode == "POINT_DATA" ? "point" : "cell";
+        for (let tag in _model.DATAS[mode]) {
+            if (_model.DATAS[mode][tag].TYPE == "SCALARS") {
+                dataoptions += `<option value="${modeName}.${tag}">${modeName}.${tag}</option>`;
+            } else if (_model.DATAS[mode][tag].TYPE == "VECTORS") {
+                dataoptions += `<option value="${modeName}.${tag}.x">${modeName}.${tag}.x</option><option value="${mode}.${tag}.y">${modeName}.${tag}.y</option><option value="${modeName}.${tag}.z">${modeName}.${tag}.z</option>`;
+            } else if (_model.DATAS[mode][tag].TYPE == "TENSORS") {
+                dataoptions += `<option value="${modeName}.${tag}.xx">${modeName}.${tag}.xx</option><option value="${modeName}.${tag}.xy">${modeName}.${tag}.xy</option><option value="${modeName}.${tag}.xz">${modeName}.${tag}.xz</option>
+                    <option value="${modeName}.${tag}.yx">${modeName}.${tag}.yx</option><option value="${modeName}.${tag}.yy">${modeName}.${tag}.yy</option><option value="${modeName}.${tag}.yz">${modeName}.${tag}.yz</option>
+                    <option value="${modeName}.${tag}.zx">${modeName}.${tag}.zx</option><option value="${modeName}.${tag}.zy">${modeName}.${tag}.zy</option><option value="${modeName}.${tag}.zz">${modeName}.${tag}.zz</option>`;
+            }
+        }   
     }
 
 	return `<!DOCTYPE html>
