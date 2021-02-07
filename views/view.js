@@ -50,22 +50,6 @@ module.exports.getWebviewContent = (_fileName, _model, _dataoption="SolidColor")
         }
     }
 
-    let dataoptions = '<option value="SolidColor">SolidColor</option>';
-    for (let mode in _model.DATAS) {
-        const modeName = mode == "POINT_DATA" ? "point" : "cell";
-        for (let tag in _model.DATAS[mode]) {
-            if (_model.DATAS[mode][tag].TYPE == "SCALARS") {
-                dataoptions += `<option value="${modeName}.${tag}">${modeName}.${tag}</option>`;
-            } else if (_model.DATAS[mode][tag].TYPE == "VECTORS") {
-                dataoptions += `<option value="${modeName}.${tag}.x">${modeName}.${tag}.x</option><option value="${modeName}.${tag}.y">${modeName}.${tag}.y</option><option value="${modeName}.${tag}.z">${modeName}.${tag}.z</option>`;
-            } else if (_model.DATAS[mode][tag].TYPE == "TENSORS") {
-                dataoptions += `<option value="${modeName}.${tag}.xx">${modeName}.${tag}.xx</option><option value="${modeName}.${tag}.xy">${modeName}.${tag}.xy</option><option value="${modeName}.${tag}.xz">${modeName}.${tag}.xz</option>
-                    <option value="${modeName}.${tag}.yx">${modeName}.${tag}.yx</option><option value="${modeName}.${tag}.yy">${modeName}.${tag}.yy</option><option value="${modeName}.${tag}.yz">${modeName}.${tag}.yz</option>
-                    <option value="${modeName}.${tag}.zx">${modeName}.${tag}.zx</option><option value="${modeName}.${tag}.zy">${modeName}.${tag}.zy</option><option value="${modeName}.${tag}.zz">${modeName}.${tag}.zz</option>`;
-            }
-        }   
-    }
-
 	return `<!DOCTYPE html>
 <html lang="en" style="width:100%;height:100%;">
     <head>
@@ -74,8 +58,8 @@ module.exports.getWebviewContent = (_fileName, _model, _dataoption="SolidColor")
         <title>${_fileName}</title>
     </head>
     <body style="width:100%;height:100%;margin:0;">
-        <select name="selectdata" id="selectdata" size=1>${dataoptions}</select>
-        <svg x=0 y=0 height="100%" width="100%" style="background-color: #ffffff">${svg}</svg>
+        <select name="selectdata" id="selectdata" size=1><option value="SolidColor">SolidColor</option></select>
+        <svg id="svgs" x=0 y=0 height="100%" width="100%" style="background-color: #ffffff">${svg}</svg>
         
         <script>
             const vscode = acquireVsCodeApi(); // acquireVsCodeApi can only be invoked once
@@ -84,6 +68,19 @@ module.exports.getWebviewContent = (_fileName, _model, _dataoption="SolidColor")
             $selectdata.value = "${_dataoption}";
             $selectdata.addEventListener('change', (event) => {
                 vscode.postMessage({ dataoption : $selectdata.value });
+            });
+
+            const $svgs = document.getElementById("svgs");
+            window.addEventListener('message', event => {
+                const message = event.data;
+                if (message.command == "options") {
+                    for (let tag of message.data) {
+                        let $option = document.createElement('option');
+                        $option.setAttribute('value', tag);
+                        $option.innerHTML = tag;
+                        selectdata.appendChild($option);
+                    }
+                }
             });
         </script>
     </body>

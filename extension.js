@@ -1,6 +1,7 @@
 const vscode = require('vscode');
 const views = require('./views/view');
 const models = require('./models/model');
+const controllers = require('./controllers/renderingController');
 
 module.exports.activate = (context) => {
 	context.subscriptions.push(
@@ -21,6 +22,8 @@ module.exports.activate = (context) => {
 				console.log(model);
 
 				panel.webview.html = views.getWebviewContent(editer.document.fileName, model);
+
+				panel.webview.postMessage({ command : "options", data : controllers.getWebviewContent(model) });
 
 				panel.webview.onDidReceiveMessage(
 					message => {
