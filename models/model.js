@@ -82,6 +82,12 @@ module.exports.loadModelFromVTK = (_str) => {
             for (let j = 0; j < datasnum; j++) {
                 model.DATAS[datamode][tag].VALUES.push(parseFloat(tokens[i++]));
             }
+            model.DATAS[datamode][tag]["MAX"] = model.DATAS[datamode][tag]["VALUES"].reduce((_a, _b) => {
+                return Math.max(_a, _b);
+            });
+            model.DATAS[datamode][tag]["MIN"] = model.DATAS[datamode][tag]["VALUES"].reduce((_a, _b) => {
+                return Math.min(_a, _b);
+            });
         } else if (tokens[i] == 'VECTORS') {
             const tag = tokens[i + 1];
             i += 3;
