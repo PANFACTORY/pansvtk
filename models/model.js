@@ -91,25 +91,59 @@ module.exports.loadModelFromVTK = (_str) => {
         } else if (tokens[i] == 'VECTORS') {
             const tag = tokens[i + 1];
             i += 3;
-            model.DATAS[datamode][tag] = { TYPE : "VECTORS", VALUES : [] };
+            model.DATAS[datamode][tag] = { TYPE : "VECTORS", VALUES : { x : [], y : [], z : [] } };
             for (let j = 0; j < datasnum; j++) {
-                model.DATAS[datamode][tag].VALUES.push({ 
-                    x : parseFloat(tokens[i++]), 
-                    y : parseFloat(tokens[i++]), 
-                    z : parseFloat(tokens[i++]) 
-                });
+                model.DATAS[datamode][tag].VALUES["x"].push(parseFloat(tokens[i++]));
+                model.DATAS[datamode][tag].VALUES["y"].push(parseFloat(tokens[i++]));
+                model.DATAS[datamode][tag].VALUES["z"].push(parseFloat(tokens[i++]));
             }
+            model.DATAS[datamode][tag]["MAX"] = {
+                x : model.DATAS[datamode][tag]["VALUES"]["x"].reduce((_a, _b) => { return Math.max(_a, _b); }),
+                y : model.DATAS[datamode][tag]["VALUES"]["y"].reduce((_a, _b) => { return Math.max(_a, _b); }),
+                z : model.DATAS[datamode][tag]["VALUES"]["z"].reduce((_a, _b) => { return Math.max(_a, _b); }),
+            };
+            model.DATAS[datamode][tag]["MIN"] = {
+                x : model.DATAS[datamode][tag]["VALUES"]["x"].reduce((_a, _b) => { return Math.min(_a, _b); }),
+                y : model.DATAS[datamode][tag]["VALUES"]["y"].reduce((_a, _b) => { return Math.min(_a, _b); }),
+                z : model.DATAS[datamode][tag]["VALUES"]["z"].reduce((_a, _b) => { return Math.min(_a, _b); }),
+            };
         } else if (tokens[i] == 'TENSORS') {
             const tag = tokens[i + 1];
             i += 3;
-            model.DATAS[datamode][tag] = { TYPE : "TENSORS", VALUES : [] };
+            model.DATAS[datamode][tag] = { TYPE : "TENSORS", VALUES : { xx : [], xy : [], xz : [], yx : [], yy : [], yz : [], zx : [], zy : [], zz : [] } };
             for (let j = 0; j < datasnum; j++) {
-                model.DATAS[datamode][tag].VALUES.push({ 
-                    xx : parseFloat(tokens[i++]), xy : parseFloat(tokens[i++]), xz : parseFloat(tokens[i++]),
-                    yx : parseFloat(tokens[i++]), yy : parseFloat(tokens[i++]), yz : parseFloat(tokens[i++]),
-                    zx : parseFloat(tokens[i++]), zy : parseFloat(tokens[i++]), zz : parseFloat(tokens[i++])
-                });
+                model.DATAS[datamode][tag].VALUES["xx"].push(parseFloat(tokens[i++]));
+                model.DATAS[datamode][tag].VALUES["xy"].push(parseFloat(tokens[i++]));
+                model.DATAS[datamode][tag].VALUES["xz"].push(parseFloat(tokens[i++]));
+                model.DATAS[datamode][tag].VALUES["yx"].push(parseFloat(tokens[i++]));
+                model.DATAS[datamode][tag].VALUES["yy"].push(parseFloat(tokens[i++]));
+                model.DATAS[datamode][tag].VALUES["yz"].push(parseFloat(tokens[i++]));
+                model.DATAS[datamode][tag].VALUES["zx"].push(parseFloat(tokens[i++]));
+                model.DATAS[datamode][tag].VALUES["zy"].push(parseFloat(tokens[i++]));
+                model.DATAS[datamode][tag].VALUES["zz"].push(parseFloat(tokens[i++]));
             }
+            model.DATAS[datamode][tag]["MAX"] = {
+                xx : model.DATAS[datamode][tag]["VALUES"]["xx"].reduce((_a, _b) => { return Math.max(_a, _b); }),
+                xy : model.DATAS[datamode][tag]["VALUES"]["xy"].reduce((_a, _b) => { return Math.max(_a, _b); }),
+                xz : model.DATAS[datamode][tag]["VALUES"]["xz"].reduce((_a, _b) => { return Math.max(_a, _b); }),
+                yx : model.DATAS[datamode][tag]["VALUES"]["yx"].reduce((_a, _b) => { return Math.max(_a, _b); }),
+                yy : model.DATAS[datamode][tag]["VALUES"]["yy"].reduce((_a, _b) => { return Math.max(_a, _b); }),
+                yz : model.DATAS[datamode][tag]["VALUES"]["yz"].reduce((_a, _b) => { return Math.max(_a, _b); }),
+                zx : model.DATAS[datamode][tag]["VALUES"]["zx"].reduce((_a, _b) => { return Math.max(_a, _b); }),
+                zy : model.DATAS[datamode][tag]["VALUES"]["zy"].reduce((_a, _b) => { return Math.max(_a, _b); }),
+                zz : model.DATAS[datamode][tag]["VALUES"]["zz"].reduce((_a, _b) => { return Math.max(_a, _b); }),
+            };
+            model.DATAS[datamode][tag]["MIN"] = {
+                xx : model.DATAS[datamode][tag]["VALUES"]["xx"].reduce((_a, _b) => { return Math.min(_a, _b); }),
+                xy : model.DATAS[datamode][tag]["VALUES"]["xy"].reduce((_a, _b) => { return Math.min(_a, _b); }),
+                xz : model.DATAS[datamode][tag]["VALUES"]["xz"].reduce((_a, _b) => { return Math.min(_a, _b); }),
+                yx : model.DATAS[datamode][tag]["VALUES"]["yx"].reduce((_a, _b) => { return Math.min(_a, _b); }),
+                yy : model.DATAS[datamode][tag]["VALUES"]["yy"].reduce((_a, _b) => { return Math.min(_a, _b); }),
+                yz : model.DATAS[datamode][tag]["VALUES"]["yz"].reduce((_a, _b) => { return Math.min(_a, _b); }),
+                zx : model.DATAS[datamode][tag]["VALUES"]["zx"].reduce((_a, _b) => { return Math.min(_a, _b); }),
+                zy : model.DATAS[datamode][tag]["VALUES"]["zy"].reduce((_a, _b) => { return Math.min(_a, _b); }),
+                zz : model.DATAS[datamode][tag]["VALUES"]["zz"].reduce((_a, _b) => { return Math.min(_a, _b); }),
+            };
         } else {
             i++;
         }
