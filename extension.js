@@ -17,6 +17,9 @@ module.exports.activate = (context) => {
 				);
 
 				let model = models.loadModelFromVTK(editer.document.getText());
+
+				console.log(model);
+
 				panel.webview.html = views.getWebviewContent(editer.document.fileName, model);
 
 				panel.webview.onDidReceiveMessage(
