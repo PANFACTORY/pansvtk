@@ -9,18 +9,14 @@ module.exports.activate = (context) => {
 			const editer = vscode.window.activeTextEditor;
 			if (editer) {
 				let model = models.loadModelFromVTK(editer.document.getText());
-				console.log(model);
+				let fName = editer.document.fileName.split(/\\|\//).slice(-1)[0];
+				console.log(fName, model);
 
-				const panel = vscode.window.createWebviewPanel(
-					'catCoding', // Identifies the type of the webview. Used internally
-					editer.document.fileName, // Title of the panel displayed to the user
-					vscode.ViewColumn.Beside, // Editor column to show the new webview panel in.
-					{
-						enableScripts: true,
-						retainContextWhenHidden: true
-					} // Webview options. More on these later.
-				);
-				panel.webview.html = views.getWebviewContent(editer.document.fileName);
+				const panel = vscode.window.createWebviewPanel('catCoding', fName, vscode.ViewColumn.Beside, {
+					enableScripts: true,
+					retainContextWhenHidden: true
+				});
+				panel.webview.html = views.getWebviewContent(fName);
 
 				panel.webview.postMessage({ command : "options", data : controllers.getOptions(model) });
 				panel.webview.postMessage({ command : "svgs", data : controllers.getSvgs(model) });

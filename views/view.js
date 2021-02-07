@@ -10,7 +10,7 @@ module.exports.getWebviewContent = (_fileName) => {
         <div style="width:100%;height:100%;poition:relative;">
             <svg id="svgs" x=0 y=0 height="100%" width="100%" style="background-color: #ffffff"></svg>
             <div style="position:absolute;top:0;">
-                <select name="selectdata" id="selectdata" size=1><option value="SolidColor">SolidColor</option></select>
+                <select id="selectdata" size=1><option value="SolidColor">SolidColor</option></select>
             </div>
         </div>
         
