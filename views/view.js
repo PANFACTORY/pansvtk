@@ -13,7 +13,7 @@ module.exports.getWebviewContent = (_fileName, _model, _dataoption="SolidColor")
             if (!component) {
                 fillcolor = `hsl(${240*(1 - _model.DATAS["CELL_DATA"][tag].VALUES[cellid])}, 100%, 50%)`;
             } else {
-                fillcolor = `hsl(${240*(1 - _model.DATAS["CELL_DATA"][tag].VALUES[cellid][component])}, 100%, 50%)`;
+                fillcolor = `hsl(${240*(1 - _model.DATAS["CELL_DATA"][tag].VALUES[component][cellid])}, 100%, 50%)`;
             }
         } else if (type == "point") {
             if (!component) {
@@ -23,10 +23,10 @@ module.exports.getWebviewContent = (_fileName, _model, _dataoption="SolidColor")
                 const c3 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[3]];
                 fillcolor = `hsl(${240*(1 - 0.25*(c0 + c1 + c2 + c3))}, 100%, 50%)`;
             } else {
-                const c0 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[0]][component];
-                const c1 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[1]][component];
-                const c2 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[2]][component];
-                const c3 = _model.DATAS["POINT_DATA"][tag].VALUES[cell.POINTS[3]][component];
+                const c0 = _model.DATAS["POINT_DATA"][tag].VALUES[component][cell.POINTS[0]];
+                const c1 = _model.DATAS["POINT_DATA"][tag].VALUES[component][cell.POINTS[1]];
+                const c2 = _model.DATAS["POINT_DATA"][tag].VALUES[component][cell.POINTS[2]];
+                const c3 = _model.DATAS["POINT_DATA"][tag].VALUES[component][cell.POINTS[3]];
                 fillcolor = `hsl(${240*(1 - 0.25*(c0 + c1 + c2 + c3))}, 100%, 50%)`;
             }
         }
