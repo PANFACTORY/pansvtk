@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const vscode = require('vscode');
 const views = require('./views/view');
 const models = require('./models/model');
@@ -17,7 +18,14 @@ module.exports.activate = (context) => {
 					enableScripts: true,
 					retainContextWhenHidden: true
 				});
-				panel.webview.html = views.getWebviewContent(fName);
+				//panel.webview.html = views.getWebviewContent(fName);
+
+				fs.readFile(path.join(context.extensionPath, 'views/html/index.html'), (err, data) => {
+					if (err) {
+						console.error(err)
+					}
+					panel.webview.html = data.toString();
+				});
 
 				panel.webview.postMessage({ command : "options", data : controllers.getOptions(model) });
 				panel.webview.postMessage({ command : "svgs", data : controllers.getSvgs(model) });
