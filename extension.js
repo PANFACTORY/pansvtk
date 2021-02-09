@@ -17,8 +17,7 @@ module.exports.activate = (context) => {
 					enableScripts: true,
 					retainContextWhenHidden: true,
 				});
-				//panel.webview.html = views.getWebviewContent(fName);
-
+				
 				fs.readFile(path.join(context.extensionPath, 'views/index.html'), (err, data) => {
 					if (err) {
 						console.error(err)
