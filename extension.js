@@ -1,3 +1,4 @@
+const path = require('path');
 const vscode = require('vscode');
 const views = require('./views/view');
 const models = require('./models/model');
@@ -9,7 +10,7 @@ module.exports.activate = (context) => {
 			const editer = vscode.window.activeTextEditor;
 			if (editer) {
 				let model = models.loadModelFromVTK(editer.document.getText());
-				let fName = editer.document.fileName.split(/\\|\//).slice(-1)[0];
+				let fName = path.basename(editer.document.fileName);
 				console.log(fName, model);
 
 				const panel = vscode.window.createWebviewPanel('catCoding', fName, vscode.ViewColumn.Beside, {
