@@ -16,17 +16,20 @@
         <script>
             const vscode = acquireVsCodeApi(); // acquireVsCodeApi can only be invoked once
 
+            const $selectdata = document.getElementById("selectdata");
+            $selectdata.addEventListener('change', (event) => {
+                vscode.postMessage({ command : "dataoption", data : $selectdata.value });
+            });
+
             let scale = 5;
             let X0 = 100;
             let Y0 = 500;
-
-            const $selectdata = document.getElementById("selectdata");
-            $selectdata.addEventListener('change', (event) => {
-                vscode.postMessage({ dataoption : $selectdata.value });
-            });
-
             const $svgs = document.getElementById("svgs");
-            
+            $svgs.addEventListener('wheel', (event) => {
+                scale = scale > 1.0 ? scale - event.deltaY*0.001 : 1.0;
+                vscode.postMessage({ command : "redraw", data : $selectdata.value });
+            });
+                        
             window.addEventListener('message', event => {
                 const message = event.data;
                 if (message.command == "options") {
@@ -37,6 +40,9 @@
                         selectdata.appendChild($option);
                     }
                 } else if (message.command == "svgs") {
+                    while ($svgs.firstChild) {
+                        $svgs.removeChild($svgs.firstChild);
+                    }
                     for (let cell of message.data) {
                         let $svg = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
                         $svg.setAttribute('fill', cell.COLOR);

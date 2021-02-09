@@ -31,7 +31,11 @@ module.exports.activate = (context) => {
 				panel.webview.onDidReceiveMessage(
 					message => {
 						console.log(message);
-						panel.webview.postMessage({ command : "svgs", data : controllers.getSvgs(model, message.dataoption) });
+						if (message.command == "dataoption") {
+							panel.webview.postMessage({ command : "svgs", data : controllers.getSvgs(model, message.data) });
+						} else if (message.command == "redraw") {
+							panel.webview.postMessage({ command : "svgs", data : controllers.getSvgs(model, message.data) });
+						}
 					},
 					undefined,
 					context.subscriptions
