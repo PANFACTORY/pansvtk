@@ -1,7 +1,6 @@
 const path = require('path');
 const fs = require('fs');
 const vscode = require('vscode');
-const views = require('./views/view');
 const models = require('./models/model');
 const controllers = require('./controllers/renderingController');
 
@@ -16,11 +15,11 @@ module.exports.activate = (context) => {
 
 				const panel = vscode.window.createWebviewPanel('catCoding', fName, vscode.ViewColumn.Beside, {
 					enableScripts: true,
-					retainContextWhenHidden: true
+					retainContextWhenHidden: true,
 				});
 				//panel.webview.html = views.getWebviewContent(fName);
 
-				fs.readFile(path.join(context.extensionPath, 'views/html/index.html'), (err, data) => {
+				fs.readFile(path.join(context.extensionPath, 'views/index.html'), (err, data) => {
 					if (err) {
 						console.error(err)
 					}
