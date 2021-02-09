@@ -10,6 +10,10 @@
             <svg id="svgs" x=0 y=0 height="100%" width="100%" style="background-color: #ffffff"></svg>
             <div style="position:absolute;top:0;">
                 <select id="selectdata" size=1><option value="SolidColor">SolidColor</option></select>
+                <select id="selecttype" size=1>
+                    <option value="Surface">Surface</option>
+                    <option value="SurfaceWithEdge">Surface with edge</option>
+                </select>
             </div>
         </div>
 
@@ -21,13 +25,18 @@
                 vscode.postMessage({ command : "dataoption", data : $selectdata.value });
             });
 
+            const $selecttype = document.getElementById("selecttype");
+            $selecttype.addEventListener('change', (event) => {
+                vscode.postMessage({ command : "dataoption", data : $selectdata.value });
+            });
+
             let scale = 5;
             let X0 = 100;
             let Y0 = 500;
             const $svgs = document.getElementById("svgs");
             $svgs.addEventListener('wheel', (event) => {
                 scale = scale > 1.0 ? scale - event.deltaY*0.001 : 1.0;
-                vscode.postMessage({ command : "redraw", data : $selectdata.value });
+                vscode.postMessage({ command : "dataoption", data : $selectdata.value });
             });
                         
             window.addEventListener('message', event => {
@@ -46,7 +55,11 @@
                     for (let cell of message.data) {
                         let $svg = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
                         $svg.setAttribute('fill', cell.COLOR);
-                        $svg.setAttribute('stroke', 'black');
+                        if ($selecttype.value == "Surface") {
+                            $svg.setAttribute('stroke', cell.COLOR);
+                        } else if ($selecttype.value == "SurfaceWithEdge") {
+                            $svg.setAttribute('stroke', 'black');
+                        }
                         $svg.setAttribute('stroke-width', 1);
                         let pointlist = "";
                         for (let point of cell.POINTS) {

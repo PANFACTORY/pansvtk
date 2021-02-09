@@ -33,8 +33,6 @@ module.exports.activate = (context) => {
 						console.log(message);
 						if (message.command == "dataoption") {
 							panel.webview.postMessage({ command : "svgs", data : controllers.getSvgs(model, message.data) });
-						} else if (message.command == "redraw") {
-							panel.webview.postMessage({ command : "svgs", data : controllers.getSvgs(model, message.data) });
 						}
 					},
 					undefined,
