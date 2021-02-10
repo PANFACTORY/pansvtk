@@ -8,10 +8,10 @@ module.exports.activate = (context) => {
 	context.subscriptions.push(
 		vscode.commands.registerCommand('pansvtk.rendering', () => {
 			const editer = vscode.window.activeTextEditor;
-			if (editer) {
+			if (editer && path.extname(editer.document.fileName) == ".vtk") {
 				let model = models.loadModelFromVTK(editer.document.getText());
 				let fName = path.basename(editer.document.fileName);
-				console.log(fName, model);
+				console.log(fName, path.extname(fName), model);
 
 				const panel = vscode.window.createWebviewPanel('catCoding', fName, vscode.ViewColumn.Beside, {
 					enableScripts: true,
@@ -39,7 +39,7 @@ module.exports.activate = (context) => {
 					context.subscriptions
 				);
 			} else {
-				vscode.window.showInformationMessage("No file selected!");
+				vscode.window.showInformationMessage("Please select a .vtk file.");
 			}
 		})
 	);
